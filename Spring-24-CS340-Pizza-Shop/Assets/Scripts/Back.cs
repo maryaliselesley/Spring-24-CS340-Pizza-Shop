@@ -38,7 +38,7 @@ public class Back : MonoBehaviour
         }
     }
 
-    // for other scripts to reference
+    // when a payment is finished, call this method to remove the ordering scene from the history
     public static void RemoveCurrentScene()
     {
         sceneHistory.RemoveAt(sceneHistory.Count - 1);
