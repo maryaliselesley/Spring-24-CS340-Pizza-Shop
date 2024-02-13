@@ -42,7 +42,7 @@ public class FinishPayment : MonoBehaviour
 
         Debug.Log("<color=green>====================================================================================</color>");
 
-        Back.RemoveCurrentScene(); // remove current scene so scene history is updated correctly
+        // Back.RemoveCurrentScene(); // remove current scene so scene history is updated correctly
         // TODO: on manager and employee screen, make a AccessLevel PlayerPrefs to know which scene to go to after payment is complete
         SceneManager.LoadScene(PlayerPrefs.GetString("AccessLevel"));
     }
