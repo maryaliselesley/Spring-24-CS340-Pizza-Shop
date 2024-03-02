@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class BasicPasswordCheck : MonoBehaviour
 {
@@ -14,10 +15,14 @@ public class BasicPasswordCheck : MonoBehaviour
     private GameObject warningMessage;
 
     [SerializeField]
+    private TMP_InputField input;
+
+    [SerializeField]
     private string correctUsername = "Username";
 
     [SerializeField]
     private string correctPassword = "Password";
+
 
     [SerializeField]
     private string sceneName;

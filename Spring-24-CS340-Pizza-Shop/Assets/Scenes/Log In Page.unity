@@ -2404,6 +2404,7 @@ GameObject:
   - component: {fileID: 1507246183}
   - component: {fileID: 1507246184}
   - component: {fileID: 1507246185}
+  - component: {fileID: 1507246186}
   m_Layer: 0
   m_Name: PasswordCheckManager
   m_TagString: Untagged
@@ -2439,6 +2440,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   warningMessage: {fileID: 983603896}
+  input: {fileID: 0}
   correctUsername: Username
   correctPassword: Password
   sceneName: Employee
@@ -2454,6 +2456,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7695ed2df7ee46469dfc33144f1bc5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1507246186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507246182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c6ed07a4e3c6914b9ec77ffa8481628, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  username: {fileID: 1589079470}
+  password: {fileID: 575200606}
+  signIn: {fileID: 331514055}
 --- !u!1 &1589079468
 GameObject:
   m_ObjectHideFlags: 0
