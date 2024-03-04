@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
-
+using TMPro;
 public class EditPizzaPrice : MonoBehaviour
 {
     //referrences here:
@@ -14,16 +14,37 @@ public class EditPizzaPrice : MonoBehaviour
     public UnityEngine.UI.Toggle smallToggle;
     public UnityEngine.UI.Toggle mediumToggle;
     public UnityEngine.UI.Toggle largeToggle;
+    public TMP_InputField priceInputField;
+
+    string currentPrice = "$0.00";
 
 
     // Start is called before the first frame update
     void Start()
     {
+    }
 
+    public void UpdatePriceText()
+    {
+        if (smallToggle.isOn)
+        {
+            currentPrice = "$10.00";
+        }
+        else if (mediumToggle.isOn)
+        {
+            currentPrice = "$15.00";
+        }
+        else if (largeToggle.isOn)
+        {
+            currentPrice = "$20.00";
+        }
+
+
+        priceInputField.text = currentPrice;
     }
 
     // Update is called once per frame
-  
+
 
     public void ClickedToggleSmall()
     {
@@ -32,6 +53,7 @@ public class EditPizzaPrice : MonoBehaviour
             Debug.Log("Hello world");
             mediumToggle.isOn = false;
             largeToggle.isOn = false;
+            UpdatePriceText();
         }
     }
     public void ClickedToggleMedium()
@@ -40,6 +62,7 @@ public class EditPizzaPrice : MonoBehaviour
         {
             smallToggle.isOn = false;
             largeToggle.isOn = false;
+            UpdatePriceText();
         }
     }
     public void ClickedToggleLarge()
@@ -48,11 +71,17 @@ public class EditPizzaPrice : MonoBehaviour
         {
             smallToggle.isOn = false;
             mediumToggle.isOn = false;
+            UpdatePriceText();
         }
     }
-}
-// update pizza price text
 
+    public void EditPrice()
+    {
+        currentPrice = priceInputField.text;
+    }
+    // update pizza price text
+
+}
 
 
 
