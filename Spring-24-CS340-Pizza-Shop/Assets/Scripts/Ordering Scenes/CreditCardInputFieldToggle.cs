@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CreditCardInputToggle : MonoBehaviour
+public class CreditCardInputFieldToggle : MonoBehaviour
 {
     private Toggle _toggle;
     [SerializeField] private GameObject _creditCardInputFields;
@@ -15,7 +15,7 @@ public class CreditCardInputToggle : MonoBehaviour
 
     private void Update()
     {
-        // show credit card input fields based on toggle state
+        // Show credit card input fields based on toggle state
         if (_toggle.isOn)
         {
             _creditCardInputFields.SetActive(true);

@@ -980,6 +980,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pizza: {fileID: 422533223997038289, guid: 267f8f219dfd2de4d985786d32f66bfa, type: 3}
   _content: {fileID: 612082797}
+  _scrollBar: {fileID: 858141653}
 --- !u!1 &155308287
 GameObject:
   m_ObjectHideFlags: 0
@@ -2286,7 +2287,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 336063114}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ee57eb47b3e8584cb5bd3c2a9e2726c, type: 3}
+  m_Script: {fileID: 11500000, guid: 90487f03d8489ce4c949da53c8ee8f21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _creditCardInputFields: {fileID: 2015647107}
@@ -3774,8 +3775,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000015258789, y: 453.9999}
-  m_SizeDelta: {x: 600.787, y: 174.758}
+  m_AnchoredPosition: {x: 0.000026703, y: 454}
+  m_SizeDelta: {x: 686.322, y: 174.758}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &538867988
 MonoBehaviour:
@@ -3830,7 +3831,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -4064,7 +4065,7 @@ GameObject:
   - component: {fileID: 608731097}
   - component: {fileID: 608731099}
   m_Layer: 5
-  m_Name: Price Manager
+  m_Name: Order Total Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5669,6 +5670,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pizza: {fileID: 4440275785302393427, guid: fa46592cfec556943ba03f96acaf0aaf, type: 3}
   _content: {fileID: 612082797}
+  _scrollBar: {fileID: 858141653}
 --- !u!1 &858141651
 GameObject:
   m_ObjectHideFlags: 0
@@ -6077,6 +6079,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pizza: {fileID: 8580903128256721364, guid: f59106a44f4fa994eb9127d28f74b416, type: 3}
   _content: {fileID: 612082797}
+  _scrollBar: {fileID: 858141653}
 --- !u!1 &902836215
 GameObject:
   m_ObjectHideFlags: 0
@@ -6087,7 +6090,7 @@ GameObject:
   m_Component:
   - component: {fileID: 902836216}
   m_Layer: 5
-  m_Name: Main TakeOut Menu #2
+  m_Name: Main TakeOut Menu (won't be hidden)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6681,8 +6684,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 403.99997}
-  m_SizeDelta: {x: 1085.311, y: 174.758}
+  m_AnchoredPosition: {x: 0.99998, y: 404}
+  m_SizeDelta: {x: 1227.726, y: 174.758}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &973680438
 MonoBehaviour:
@@ -6737,7 +6740,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -8243,6 +8246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pizza: {fileID: 422533223997038289, guid: 6b37e5163d766f743a18baec482bbc7f, type: 3}
   _content: {fileID: 612082797}
+  _scrollBar: {fileID: 858141653}
 --- !u!1 &1168017399
 GameObject:
   m_ObjectHideFlags: 0
@@ -8391,6 +8395,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pizza: {fileID: 422533223997038289, guid: 156b6d56f1c84a3498c3489d2fe15ccb, type: 3}
   _content: {fileID: 612082797}
+  _scrollBar: {fileID: 858141653}
 --- !u!1 &1178282292
 GameObject:
   m_ObjectHideFlags: 0
@@ -9213,6 +9218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pizza: {fileID: 8580903128256721364, guid: db45403c5055fb340ba1afa3a50ab1db, type: 3}
   _content: {fileID: 612082797}
+  _scrollBar: {fileID: 858141653}
 --- !u!1 &1405229269
 GameObject:
   m_ObjectHideFlags: 0
@@ -9869,6 +9875,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pizza: {fileID: 4440275785302393427, guid: e897ea3c14d12ee4ea11bce3dc09d7ca, type: 3}
   _content: {fileID: 612082797}
+  _scrollBar: {fileID: 858141653}
 --- !u!1 &1487200488
 GameObject:
   m_ObjectHideFlags: 0
@@ -11209,7 +11216,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 61.000042, y: -21}
+  m_AnchoredPosition: {x: 1, y: -21}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1761715257
@@ -11494,6 +11501,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pizza: {fileID: 8580903128256721364, guid: b300c44255bf58246bc2152c619b587e, type: 3}
   _content: {fileID: 612082797}
+  _scrollBar: {fileID: 858141653}
 --- !u!1 &1770677553
 GameObject:
   m_ObjectHideFlags: 0
@@ -13296,6 +13304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pizza: {fileID: 4440275785302393427, guid: 9a16c7bbb37e84a40be2ff2d1a9429db, type: 3}
   _content: {fileID: 612082797}
+  _scrollBar: {fileID: 858141653}
 --- !u!1 &2132483975
 GameObject:
   m_ObjectHideFlags: 0
