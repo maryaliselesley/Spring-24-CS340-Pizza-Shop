@@ -17,22 +17,39 @@ public class BasicPasswordCheck : MonoBehaviour
     [SerializeField]
     private TMP_InputField input;
 
-    [SerializeField]
-    private string correctUsername = "Username";
-
-    [SerializeField]
-    private string correctPassword = "Password";
 
 
     [SerializeField]
-    private string sceneName;
+    private string employeeUsername = "Username";
+
+    [SerializeField]
+    private string employeePassword = "Password";
+
+    [SerializeField]
+    private string managerUsername = "Username";
+
+    [SerializeField]
+    private string managerPassword = "Password";
+
+
+
+    [SerializeField]
+    private string employeeScene;
+    
+    [SerializeField]
+    private string managerScene;
 
 
     public void CheckPassword() {
 
-        if (passwordText == correctPassword && usernameText == correctUsername) {
+        if (passwordText == employeePassword && usernameText == employeeUsername) {
             warningMessage.SetActive(false);
-            SceneManager.LoadScene(sceneName);
+            SceneManager.LoadScene(employeeScene);
+        }
+
+        else if (passwordText == managerPassword && usernameText == managerUsername) {
+            warningMessage.SetActive(false);
+            SceneManager.LoadScene(managerScene);
         }
 
         else { 

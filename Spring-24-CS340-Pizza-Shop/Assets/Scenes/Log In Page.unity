@@ -2441,9 +2441,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   warningMessage: {fileID: 983603896}
   input: {fileID: 0}
-  correctUsername: Username
-  correctPassword: Password
-  sceneName: Employee
+  employeeUsername: Username
+  employeePassword: Password
+  managerUsername: Username
+  managerPassword: Password
+  employeeScene: Manager
+  managerScene: Manager
 --- !u!114 &1507246185
 MonoBehaviour:
   m_ObjectHideFlags: 0
