@@ -13,6 +13,10 @@ public class DynamicRectTransformHeight : MonoBehaviour
         AdjustHeight();
     }
 
+    /// <summary>
+    /// Adjust the height of the "Pizza" GameObject based on how many children it has.
+    /// Each increase is a static value.
+    /// </summary>
     private void AdjustHeight()
     {
         int numberOfChildren = _pizzaInTheOrder.transform.childCount;
