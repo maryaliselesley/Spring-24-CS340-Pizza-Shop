@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,6 +10,9 @@ public class FinishPayment : MonoBehaviour
     [SerializeField] private TMP_InputField _addressInputField;
     [SerializeField] private TMP_InputField _phoneNumberInputField;
     [SerializeField] private Transform _itemList;
+
+    [SerializeField] private GameObject _warningPopup;
+    [SerializeField] private TMP_Text _warningMessage;
 
     private double _orderTotal;
     private string _orderType;
@@ -37,9 +41,10 @@ public class FinishPayment : MonoBehaviour
         Debug.Log("<color=green>====================================================================================</color>");
         Debug.Log("Store these values to database");
 
+        if (!GetPhoneNumber()) return; // Don't store anything in database if phone number is invalid
+        GetAddress();
         GetOrderType();
         GetOrderDateAndTime();
-        GetAddressAndPhoneNumber();
         GetOrderItem();
         GetOrderTotal();
 
@@ -47,7 +52,7 @@ public class FinishPayment : MonoBehaviour
 
         // Back.RemoveCurrentScene(); // remove current scene so scene history is updated correct
         // TODO: on manager and employee screen, make a AccessLevel PlayerPrefs to know which scene to go to after payment is complete
-        SceneManager.LoadScene(PlayerPrefs.GetString("AccessLevel"));
+        // SceneManager.LoadScene(PlayerPrefs.GetString("AccessLevel"));
     }
 
     /// <summary>
@@ -83,21 +88,54 @@ public class FinishPayment : MonoBehaviour
     }
 
     /// <summary>
-    /// Gets the address and phone number by getting the text in the input field.
+    /// Gets the address by getting the text in the input field. <br/>
     /// Check if input fields are null so it works for all 3 ordering scenes.
     /// </summary>
-    private void GetAddressAndPhoneNumber()
+    private void GetAddress()
     {
         if (_addressInputField != null)
         {
             _address = _addressInputField.text;
             Debug.Log("Address: " + _address);
         }
+    }
+
+    /// <summary>
+    /// Get phone number from the input field. If phone number is invalid, enable warning pop-up. <br/>
+    /// Check if input fields are null so it works for all 3 ordering scenes.
+    /// </summary>
+    /// <returns></returns>
+    private bool GetPhoneNumber()
+    {
         if (_phoneNumberInputField != null)
         {
             _phoneNumber = _phoneNumberInputField.text;
-            Debug.Log("Phone Number: " + _phoneNumber);
+            if (!IsValidPhoneNumber(_phoneNumber) && _phoneNumber != "")
+            {
+                _warningMessage.text = "Invalid phone number format. Double check to make sure it is not empty and is a 10-digit number without any letters or special characters.";
+                _warningPopup.SetActive(true);
+                return false;
+            }
+            else
+            {
+                Debug.Log("Phone Number: " + _phoneNumber);
+                return true;
+            }
         }
+
+        Debug.Log(_phoneNumber);
+        return true;
+    }
+
+    /// <summary>
+    /// Check if a phone number is valid using regular expression to match exactly 10 digits with no other characters.
+    /// </summary>
+    /// <param name="phoneNumber"></param>
+    /// <returns></returns>
+    private bool IsValidPhoneNumber(string phoneNumber)
+    {
+        Regex regex = new Regex(@"^\d{10}$");
+        return regex.IsMatch(phoneNumber);
     }
 
     /// <summary>

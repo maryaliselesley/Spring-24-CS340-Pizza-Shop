@@ -33,6 +33,6 @@ public class AddPizza : MonoBehaviour
             newPizza.GetComponent<TMP_Text>().text += PlayerPrefs.GetFloat("largePizzaPrice").ToString();
         }
 
-        _scrollBar.value = 0; // Scroll the scroll bar to the buttom
+        _scrollBar.value = 0; // Scroll the scroll bar to the bottom
     }
 }
