@@ -5,9 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using TMPro;
+
 public class EditPizzaPrice : MonoBehaviour
 {
-    //referrences here:
+    //references here:
     // text of pizza price
     // toggles
     // input field
@@ -19,13 +20,16 @@ public class EditPizzaPrice : MonoBehaviour
     string currentPrice = "$0.00";
 
 
-    // Start is called before the first frame update
+    // Start
     void Start()
     {
+        // Set initial price text
+        priceInputField.text = currentPrice;
     }
 
     public void UpdatePriceText()
     {
+        // Update currentPrice based on toggle state
         if (smallToggle.isOn)
         {
             currentPrice = "$10.00";
@@ -39,12 +43,9 @@ public class EditPizzaPrice : MonoBehaviour
             currentPrice = "$20.00";
         }
 
-
+        // Update the price input field
         priceInputField.text = currentPrice;
     }
-
-    // Update is called once per frame
-
 
     public void ClickedToggleSmall()
     {
@@ -54,8 +55,10 @@ public class EditPizzaPrice : MonoBehaviour
             mediumToggle.isOn = false;
             largeToggle.isOn = false;
             UpdatePriceText();
+            SavePrice();
         }
     }
+
     public void ClickedToggleMedium()
     {
         if (mediumToggle.isOn)
@@ -63,8 +66,10 @@ public class EditPizzaPrice : MonoBehaviour
             smallToggle.isOn = false;
             largeToggle.isOn = false;
             UpdatePriceText();
+            SavePrice();
         }
     }
+
     public void ClickedToggleLarge()
     {
         if (largeToggle.isOn)
@@ -72,18 +77,21 @@ public class EditPizzaPrice : MonoBehaviour
             smallToggle.isOn = false;
             mediumToggle.isOn = false;
             UpdatePriceText();
+            SavePrice();
         }
     }
 
+    
+    void SavePrice()
+    {
+        PlayerPrefs.SetString("PizzaPrice", currentPrice);
+    }
+
+    // Method to edit the price
     public void EditPrice()
     {
-        currentPrice = priceInputField.text;
+        string newPriceText = priceInputField.text;
+        
+       
     }
-    // update pizza price text
-
 }
-
-
-
-
-// method for eidt button to call to change pizza price
