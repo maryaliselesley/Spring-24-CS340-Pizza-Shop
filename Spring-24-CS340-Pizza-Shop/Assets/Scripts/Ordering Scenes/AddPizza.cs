@@ -22,6 +22,7 @@ public class AddPizza : MonoBehaviour
         // Look for tags to concatenate price to text
         if (newPizza.tag == "Small Pizza")
         {
+            Debug.Log("Price is: " + PlayerPrefs.GetFloat("smallPizzaPrice").ToString());
             newPizza.GetComponent<TMP_Text>().text += PlayerPrefs.GetFloat("smallPizzaPrice").ToString();
         }
         else if (newPizza.tag == "Medium Pizza")
