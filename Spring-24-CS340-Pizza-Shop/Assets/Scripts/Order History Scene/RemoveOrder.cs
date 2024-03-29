@@ -36,12 +36,14 @@ public class RemoveOrder : MonoBehaviour
             {
                 GameObject order = raycastResult.gameObject;
 
+                if (order.name.Contains("RemoveOrder")) break; // If RemoveOrder button is hit, break so _selectedOrder is not nullified before RemoveOrder is clicked
+
                 // Only the order object has the DynamicRectTransformHeight script, so if it's not null, it will be the object that we're looking for
                 if (order.GetComponent<DynamicRectTransformHeight>() != null)
                 {
-                    _selectedOrder = raycastResult.gameObject;
+                    _selectedOrder = order;
+                    break;
                 }
-                // If not order object is selected, nullify selectedOrder so nothing will deleted
                 else
                 {
                     _selectedOrder = null;
@@ -81,6 +83,7 @@ public class RemoveOrder : MonoBehaviour
             }
 
             Destroy(_selectedOrder);
+            _selectedOrder = null;
         }
     }
 }
