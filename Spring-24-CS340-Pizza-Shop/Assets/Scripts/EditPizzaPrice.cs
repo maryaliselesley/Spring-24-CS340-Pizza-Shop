@@ -1,61 +1,71 @@
-using JetBrains.Annotations;
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
-using TMPro;
 
 public class EditPizzaPrice : MonoBehaviour
 {
-    //references here:
-    // text of pizza price
-    // toggles
-    // input field
-    public UnityEngine.UI.Toggle smallToggle;
-    public UnityEngine.UI.Toggle mediumToggle;
-    public UnityEngine.UI.Toggle largeToggle;
-    public TMP_InputField priceInputField;
+    public Toggle smallToggle;
+    public Toggle mediumToggle;
+    public Toggle largeToggle;
+    public TextMeshProUGUI smallPriceText; 
+    public TextMeshProUGUI mediumPriceText;
+    public TextMeshProUGUI largePriceText; 
+    public TMP_InputField priceInputField; 
+    public TextMeshProUGUI errorMessageText; 
 
-    string currentPrice = "$0.00";
-
+    
+    private string smallPrice = "$10.00";
+    private string mediumPrice = "$15.00";
+    private string largePrice = "$20.00";
 
     // Start
     void Start()
     {
-        // Set initial price text
-        priceInputField.text = currentPrice;
+       
+        smallPriceText.text = smallPrice;
+        mediumPriceText.text = mediumPrice;
+        largePriceText.text = largePrice;
     }
 
     public void UpdatePriceText()
     {
-        // Update currentPrice based on toggle state
+        // Update the price text based on toggle state
         if (smallToggle.isOn)
         {
-            currentPrice = "$10.00";
+            smallPriceText.text = smallPrice;
         }
-        else if (mediumToggle.isOn)
+        else
         {
-            currentPrice = "$15.00";
-        }
-        else if (largeToggle.isOn)
-        {
-            currentPrice = "$20.00";
+            smallPriceText.text = "";
         }
 
-        // Update the price input field
-        priceInputField.text = currentPrice;
+        if (mediumToggle.isOn)
+        {
+            mediumPriceText.text = mediumPrice;
+        }
+        else
+        {
+            mediumPriceText.text = "";
+        }
+
+        if (largeToggle.isOn)
+        {
+            largePriceText.text = largePrice;
+        }
+        else
+        {
+            largePriceText.text = "";
+        }
     }
 
     public void ClickedToggleSmall()
     {
         if (smallToggle.isOn)
         {
-            Debug.Log("Hello world");
             mediumToggle.isOn = false;
             largeToggle.isOn = false;
             UpdatePriceText();
-            SavePrice();
+            SavePrice(smallPrice); 
         }
     }
 
@@ -66,7 +76,7 @@ public class EditPizzaPrice : MonoBehaviour
             smallToggle.isOn = false;
             largeToggle.isOn = false;
             UpdatePriceText();
-            SavePrice();
+            SavePrice(mediumPrice); 
         }
     }
 
@@ -77,21 +87,74 @@ public class EditPizzaPrice : MonoBehaviour
             smallToggle.isOn = false;
             mediumToggle.isOn = false;
             UpdatePriceText();
-            SavePrice();
+            SavePrice(largePrice); 
         }
     }
 
-    
-    void SavePrice()
+    void SavePrice(string price)
     {
-        PlayerPrefs.SetString("PizzaPrice", currentPrice);
+        // Save the selected pizza price
+        PlayerPrefs.SetString("PizzaPrice", price);
     }
 
     // Method to edit the price
     public void EditPrice()
     {
-        string newPriceText = priceInputField.text;
         
+        string newPriceText = priceInputField.text;
+
+        
+        if (IsValidPriceInput(newPriceText))
+        {
+            
+            if (smallToggle.isOn)
+            {
+                smallPrice = newPriceText;
+                smallPriceText.text = smallPrice;
+            }
+            else if (mediumToggle.isOn)
+            {
+                mediumPrice = newPriceText;
+                mediumPriceText.text = mediumPrice;
+            }
+            else if (largeToggle.isOn)
+            {
+                largePrice = newPriceText;
+                largePriceText.text = largePrice;
+            }
+
+            
+            ClearErrorMessage();
+        }
+        else
+        {
+            
+            DisplayErrorMessage("Invalid price input. Please enter a valid price with up to two decimal places, optionally starting with a '$' symbol.");
+        }
+    }
+
+    // Method to validate price input
+    private bool IsValidPriceInput(string input)
+    {
        
+        string pattern = @"^\$?(\d+(\.\d{0,2})?)?$";
+        return System.Text.RegularExpressions.Regex.IsMatch(input, pattern);
+    }
+
+    // Method to display error message
+    private void DisplayErrorMessage(string message)
+    {
+        
+        errorMessageText.text = message;
+
+        // Clear the input field for another attempt
+        priceInputField.text = "";
+    }
+
+    // Method to clear error message
+    private void ClearErrorMessage()
+    {
+        // Clear error message in UI
+        errorMessageText.text = "";
     }
 }
