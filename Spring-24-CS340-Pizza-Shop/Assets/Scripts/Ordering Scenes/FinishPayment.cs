@@ -1,3 +1,4 @@
+using Mono.Data.Sqlite;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -11,15 +12,13 @@ public class FinishPayment : MonoBehaviour
     [SerializeField] private TMP_InputField _phoneNumberInputField;
     [SerializeField] private Transform _itemList;
 
-    [SerializeField] private GameObject _warningPopup;
-    [SerializeField] private TMP_Text _warningMessage;
+    [SerializeField] private GameObject _phoneWarningPopup; // Shows up when phone number is entered and does not confront the format
+    [SerializeField] private TMP_Text _phoneWarningMessage;
+    [SerializeField] private GameObject _addressWarningPopup; // Shows up when phone number is entered and does not confront the format
+    [SerializeField] private TMP_Text _addressWarningMessage;
 
-    private double _orderTotal;
-    private string _orderType;
-    private string _orderDate;
-    private string _orderTime;
-    private string _address;
     private string _phoneNumber;
+    private string _address;
 
     private int _numberOfSmallCheesePizza;
     private int _numberOfSmallVegetablePizza;
@@ -38,110 +37,50 @@ public class FinishPayment : MonoBehaviour
     /// </summary>
     public void FinishPaymentAndStoreInfo()
     {
-        Debug.Log("<color=green>====================================================================================</color>");
-        Debug.Log("Store these values to database");
+        // If phone or address is invalid, do not put anything in the database yet
+        if (!IsPhoneNumberValid() || !IsAddressValid()) return;
 
-        if (!GetPhoneNumber()) return; // Don't store anything in database if phone number is invalid
-        GetAddress();
-        GetOrderType();
-        GetOrderDateAndTime();
-        GetOrderItem();
-        GetOrderTotal();
+        string items = GetOrderItem();
+        string date = GetOrderDate();
+        string time = GetOrderTime();
+        string total = GetOrderTotal();
+        string type = GetOrderType();
+        string address = GetAddress();
+        string phoneNumber = GetPhoneNumber();
 
-        Debug.Log("<color=green>====================================================================================</color>");
+        AddOrderToDatabase(items, date, time, total, type, address, phoneNumber);
 
         // Back.RemoveCurrentScene(); // remove current scene so scene history is updated correct
         // TODO: on manager and employee screen, make a AccessLevel PlayerPrefs to know which scene to go to after payment is complete
         // SceneManager.LoadScene(PlayerPrefs.GetString("AccessLevel"));
     }
 
-    /// <summary>
-    /// Get the order type by getting the scene name
-    /// </summary>
-    private void GetOrderType()
+    private void AddOrderToDatabase(string orderItems, string orderDate, string orderTime, string orderTotal, string orderType, string orderAddress, string orderPhoneNumber)
     {
-        _orderType = SceneManager.GetActiveScene().name;
-        Debug.Log("Order Type: " + _orderType);
-    }
+        string databaseName = "URI=file:OrderDatabase.db";
 
-    /// <summary>
-    /// Get order data and time by using System.DateTime.
-    /// Split year, month, day, hour, minute, and second and concatenate data and time separately.
-    /// </summary>
-    private void GetOrderDateAndTime()
-    {
-        System.DateTime currentDateAndTime = System.DateTime.Now;
-
-        int year = currentDateAndTime.Year;
-        int month = currentDateAndTime.Month;
-        int day = currentDateAndTime.Day;
-
-        int hour = currentDateAndTime.Hour;
-        int minute = currentDateAndTime.Minute;
-        int second = currentDateAndTime.Second;
-
-        _orderDate = month + "/" + day + "/" + year;
-        _orderTime = hour + ":" + minute + ":" + second;
-
-        Debug.Log("Order Date: " + _orderDate);
-        Debug.Log("Order Time: " + _orderTime);
-    }
-
-    /// <summary>
-    /// Gets the address by getting the text in the input field. <br/>
-    /// Check if input fields are null so it works for all 3 ordering scenes.
-    /// </summary>
-    private void GetAddress()
-    {
-        if (_addressInputField != null)
+        using (var connection = new SqliteConnection(databaseName))
         {
-            _address = _addressInputField.text;
-            Debug.Log("Address: " + _address);
-        }
-    }
+            connection.Open();
 
-    /// <summary>
-    /// Get phone number from the input field. If phone number is invalid, enable warning pop-up. <br/>
-    /// Check if input fields are null so it works for all 3 ordering scenes.
-    /// </summary>
-    /// <returns></returns>
-    private bool GetPhoneNumber()
-    {
-        if (_phoneNumberInputField != null)
-        {
-            _phoneNumber = _phoneNumberInputField.text;
-            if (!IsValidPhoneNumber(_phoneNumber) && _phoneNumber != "")
+            using (var transaction = connection.BeginTransaction())
             {
-                _warningMessage.text = "Invalid phone number format. Double check to make sure it is not empty and is a 10-digit number without any letters or special characters.";
-                _warningPopup.SetActive(true);
-                return false;
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = $"INSERT INTO Orders (Content, Date, Time, Total, Type, Address, PhoneNumber) VALUES ('{orderItems}', '{orderDate}', '{orderTime}', '{orderTotal}', '{orderType}', '{orderAddress}', '{orderPhoneNumber}')";
+                    command.ExecuteNonQuery(); // Used for SQL statements that don't return any data, such as INSERT, UPDATE, DELETE
+                }
+                transaction.Commit();
             }
-            else
-            {
-                Debug.Log("Phone Number: " + _phoneNumber);
-                return true;
-            }
+
+            connection.Close();
         }
-
-        Debug.Log(_phoneNumber);
-        return true;
-    }
-
-    /// <summary>
-    /// Check if a phone number is valid using regular expression to match exactly 10 digits with no other characters.
-    /// </summary>
-    /// <param name="phoneNumber"></param>
-    /// <returns></returns>
-    private bool IsValidPhoneNumber(string phoneNumber)
-    {
-        Regex regex = new Regex(@"^\d{10}$");
-        return regex.IsMatch(phoneNumber);
     }
 
     /// <summary>
     /// Loop through the item list and increment each pizza counter based on the number of the pizza in the order.
     /// </summary>
-    private void GetOrderItem()
+    private string GetOrderItem()
     {
         // look for number of each type of pizza in item list
         foreach (Transform pizzaTransform in _itemList)
@@ -158,25 +97,127 @@ public class FinishPayment : MonoBehaviour
             else if (pizza.name.Contains("LargeMeat")) _numberOfLargeMeatPizza++;
         }
 
-        Debug.Log("Small Cheese Pizza Count: " + _numberOfSmallCheesePizza);
-        Debug.Log("Small Vegetable Pizza Count: " + _numberOfSmallVegetablePizza);
-        Debug.Log("Small Meat Pizza Count: " + _numberOfSmallMeatPizza);
+        string orderedPizza = "";
+        if (_numberOfSmallCheesePizza != 0) orderedPizza += "Small Cheese x" + _numberOfSmallCheesePizza + "\n";
+        if (_numberOfSmallVegetablePizza != 0) orderedPizza += "Small Vege x" + _numberOfSmallVegetablePizza + "\n";
+        if (_numberOfSmallMeatPizza != 0) orderedPizza += "Small Meat x" + _numberOfSmallMeatPizza + "\n";
 
-        Debug.Log("Medium Cheese Pizza Count: " + _numberOfMediumCheesePizza);
-        Debug.Log("Medium Vegetable Pizza Count: " + _numberOfMediumVegetablePizza);
-        Debug.Log("Medium Meat Pizza Count: " + _numberOfMediumMeatPizza);
+        if (_numberOfMediumCheesePizza != 0) orderedPizza += "Medium Cheese x" + _numberOfMediumCheesePizza + "\n";
+        if (_numberOfMediumVegetablePizza != 0) orderedPizza += "Medium Vege x" + _numberOfMediumVegetablePizza + "\n";
+        if (_numberOfMediumMeatPizza != 0) orderedPizza += "Medium Meat x" + _numberOfMediumMeatPizza + "\n";
 
-        Debug.Log("Large Cheese Pizza Count: " + _numberOfLargeCheesePizza);
-        Debug.Log("Large Vegetable Pizza Count: " + _numberOfLargeVegetablePizza);
-        Debug.Log("Large Meat Pizza Count: " + _numberOfLargeMeatPizza);
+        if (_numberOfLargeCheesePizza != 0) orderedPizza += "Large Cheese x" + _numberOfLargeCheesePizza + "\n";
+        if (_numberOfLargeVegetablePizza != 0) orderedPizza += "Large Vege x" + _numberOfLargeVegetablePizza + "\n";
+        if (_numberOfLargeMeatPizza != 0) orderedPizza += "Large Meat x" + _numberOfLargeMeatPizza + "\n";
+
+        return orderedPizza;
+    }
+
+    /// <summary>
+    /// Get order data and time by using System.DateTime.
+    /// Split year, month, day, hour, minute, and second and concatenate data and time separately.
+    /// </summary>
+    private string GetOrderDate()
+    {
+        System.DateTime currentDateAndTime = System.DateTime.Now;
+
+        int year = currentDateAndTime.Year;
+        int month = currentDateAndTime.Month;
+        int day = currentDateAndTime.Day;
+
+        return month + "/" + day + "/" + year;
+    }
+
+    private string GetOrderTime()
+    {
+        System.DateTime currentDateAndTime = System.DateTime.Now;
+        int hour = currentDateAndTime.Hour;
+        int minute = currentDateAndTime.Minute;
+        int second = currentDateAndTime.Second;
+
+        return hour + ":" + minute + ":" + second;
     }
 
     /// <summary>
     /// Get the total of the order by calling the total variable in PriceManager.
     /// </summary>
-    private void GetOrderTotal()
+    private string GetOrderTotal()
     {
-        _orderTotal = OrderTotalManager.total;
-        Debug.Log("Order Total: $" + _orderTotal);
+        return "$" + OrderTotalManager.total.ToString();
+    }
+
+    /// <summary>
+    /// Get the order type by getting the scene name
+    /// </summary>
+    private string GetOrderType()
+    {
+        return SceneManager.GetActiveScene().name;
+    }
+
+    /// <summary>
+    /// Gets the address by getting the text in the input field. <br/>
+    /// Check if input fields are null so it works for all 3 ordering scenes.
+    /// </summary>
+    private string GetAddress()
+    {
+        if (_addressInputField != null) return _addressInputField.text;
+        else return "";
+    }
+
+    private string GetPhoneNumber()
+    {
+        if (_phoneNumberInputField != null) return _phoneNumberInputField.text;
+        else return "";
+    }
+
+    /// <summary>
+    /// Get phone number from the input field. If phone number is invalid, enable warning pop-up. <br/>
+    /// Check if input fields are null so it works for all 3 ordering scenes.
+    /// </summary>
+    /// <returns></returns>
+    private bool IsPhoneNumberValid()
+    {
+        if (_phoneNumberInputField != null)
+        {
+            if (!IsPhoneNumberValidHelper(_phoneNumberInputField.text))
+            {
+                _phoneWarningMessage.text = "Invalid phone number format. Double check to make sure it is not empty and is a 10-digit number without any letters or special characters.";
+                _phoneWarningPopup.SetActive(true);
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Check if a phone number is valid using regular expression to match exactly 10 digits with no other characters.
+    /// </summary>
+    /// <param name="phoneNumber"></param>
+    /// <returns></returns>
+    private bool IsPhoneNumberValidHelper(string phoneNumber)
+    {
+        Regex regex = new Regex(@"^\d{10}$");
+        return regex.IsMatch(phoneNumber);
+    }
+
+    private bool IsAddressValid()
+    {
+        if (_phoneNumberInputField != null)
+        {
+            if (_addressInputField.text == "")
+            {
+                _addressWarningMessage.text = "Invalid address format. Double check to make sure the address is not empty.";
+                _addressWarningPopup.SetActive(true);
+                return false;
+            }
+            else return true;
+        }
+
+        return true;
     }
 }

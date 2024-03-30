@@ -10,12 +10,6 @@ public class OrderTotalManager : MonoBehaviour
 {
     public static OrderTotalManager instance;
 
-    // Pizza prices
-    // TODO: change pizza default prices
-    private double _smallPizzaPrice;
-    private double _mediumPizzaPrice;
-    private double _largePizzaPrice;
-
     // Fees
     private const double _deliveryFee = 3;
     private const double _dineInServiceFee = 0.05;
@@ -32,13 +26,6 @@ public class OrderTotalManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-    }
-
-    private void Start()
-    {
-        _smallPizzaPrice = PlayerPrefs.GetFloat("smallPizzaPrice", 4.99f);
-        _mediumPizzaPrice = PlayerPrefs.GetFloat("mediumPizzaPrice", 6.99f);
-        _largePizzaPrice = PlayerPrefs.GetFloat("largePizzaPrice", 9.99f);
     }
 
     // Ideally, prices gets updated only when a pizza is added or removed
@@ -83,9 +70,9 @@ public class OrderTotalManager : MonoBehaviour
         GameObject[] numberOfLargePizza = GameObject.FindGameObjectsWithTag("Large Pizza");
 
         // Calculate each pizza size's total price
-        double smallPizzaTotal = numberOfSmallPizza.Length * _smallPizzaPrice;
-        double mediumPizzaTotal = numberOfMediumPizza.Length * _mediumPizzaPrice;
-        double largePizzaTotal = numberOfLargePizza.Length * _largePizzaPrice;
+        double smallPizzaTotal = numberOfSmallPizza.Length * PlayerPrefs.GetFloat("smallPizzaPrice");
+        double mediumPizzaTotal = numberOfMediumPizza.Length * PlayerPrefs.GetFloat("mediumPizzaPrice");
+        double largePizzaTotal = numberOfLargePizza.Length * PlayerPrefs.GetFloat("largePizzaPrice");
 
         // Calculate and update sub total
         _subTotal = smallPizzaTotal + mediumPizzaTotal + largePizzaTotal;

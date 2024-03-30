@@ -26,4 +26,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Take Out.unity
     guid: de2ba1e68349a9a4ea92e215883a186f
+  - enabled: 1
+    path: Assets/Scenes/Manager.unity
+    guid: 3b313c300b666f94e89b7578ba83a7e5
+  - enabled: 1
+    path: Assets/Scenes/Revenue.unity
+    guid: bc08f2cf006b5f443881fe4508baf1e6
   m_configObjects: {}

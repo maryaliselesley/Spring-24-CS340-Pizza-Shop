@@ -11,19 +11,40 @@ public class Employeeinformationmanager : MonoBehaviour
     [SerializeField] private TMP_InputField Phone;
     private string input;
 
-    private void Update()
+    public int EmployeeNumber;
+
+    public void DisplayEmpInfo()
     {
-        Debug.Log(Name.text);
-        Debug.Log(SSN.text);
-        Debug.Log(Title.text);
-        Debug.Log(Phone.text);
+        Name.text = ("Employee" + EmployeeNumber.ToString() + "Name";
+        SSN.text = ("Employee" + EmployeeNumber.ToString() + "SSN";
+        Title.text("Employee" + EmployeeNumber.ToString() + "Title";
+        Phone.text = PlayerPrefs.GetString("Employee" + EmployeeNumber.ToString() + "Phone");
+    }
+
+    public void SetEmployeeNumber(int number)
+    {
+        EmployeeNumber = number;
     }
 
     public void SaVeEmpInfo()
     {
-        PlayerPrefs.SetString("Employee1", Name.text);
-        PlayerPrefs.SetString("Employee1", SSN.text);
-        PlayerPrefs.SetString("Employee1", Title.text);
-        PlayerPrefs.SetString("Employee1", Phone.text);
+        PlayerPrefs.SetString("Employee" + EmployeeNumber.ToString() + "Name" , Name.text);
+        PlayerPrefs.SetString("Employee" + EmployeeNumber.ToString() + "SSN" , SSN.text);
+        PlayerPrefs.SetString("Employee" + EmployeeNumber.ToString() + "Title", Title.text);
+        PlayerPrefs.SetString("Employee" + EmployeeNumber.ToString() + "Phone", Phone.text);
+
+    }
+
+    public void DeleteEmpInfo()
+    {
+        PlayerPrefs.DeleteKey("Employee" + EmployeeNumber.ToString() + "Name");
+        PlayerPrefs.DeleteKey("Employee" + EmployeeNumber.ToString() + "SSN");
+        PlayerPrefs.DeleteKey("Employee" + EmployeeNumber.ToString() + "Title");
+        PlayerPrefs.DeleteKey("Employee" + EmployeeNumber.ToString() + "Phone");
+
+        Name.text = " ";
+        SSN.text = " ";
+        Tite.text = " ";
+        Phone.text = " ";
     }
     }
