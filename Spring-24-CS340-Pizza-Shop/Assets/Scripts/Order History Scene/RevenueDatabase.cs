@@ -37,7 +37,7 @@ public class RevenueDatabase : MonoBehaviour
         textCount.GetComponent<TMP_Text>().text = counter.ToString();
         textTotal.GetComponent<TMP_Text>().text = "$" + total.ToString();
 
-        DisplayDatabase(false);
+        DisplayDatabase();
     }
 
     /// <summary>
@@ -45,13 +45,9 @@ public class RevenueDatabase : MonoBehaviour
     /// If need to redisplay what orders needs to be on the canvas, set isRedisplay to true.
     /// Redisplay bool is used for searching order and adding order (adding order is test only currently)
     /// </summary>
-    public void DisplayDatabase(bool isRedisplay)
+    public void DisplayDatabase(string SQLCommand = "SELECT * FROM Orders")
     {
-        // If is redisplaying the database, destroy all existing order objects before proceeding to display orders
-        if (isRedisplay)
-        {
-            DestroyOnScreenOrderObjects();
-        }
+        DestroyOnScreenOrderObjects();
 
         string databaseName = "URI=file:OrderDatabase.db";
 
@@ -61,7 +57,7 @@ public class RevenueDatabase : MonoBehaviour
 
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "SELECT * FROM Orders";
+                command.CommandText = SQLCommand;
 
                 using (IDataReader reader = command.ExecuteReader())
                 {
@@ -72,6 +68,27 @@ public class RevenueDatabase : MonoBehaviour
             connection.Close();
         }
     }
+
+    public void SelectAllOrders()
+    {
+        DisplayDatabase("SELECT * FROM Orders");
+    }
+
+    public void SelectDineInOrders()
+    {
+        DisplayDatabase("SELECT * FROM Orders WHERE Type=\"DineIn\"");
+    }
+
+    public void SelectTakeOutOrder()
+    {
+        DisplayDatabase("SELECT * FROM Orders WHERE Type=\"TakeOut\"");
+    }
+
+    public void SelectDeliveryOrder()
+    {
+        DisplayDatabase("SELECT * FROM Orders WHERE Type=\"Delivery\"");
+    }
+
 
     /// <summary>
     /// Instantiate order objects with the information from database.
@@ -107,7 +124,7 @@ public class RevenueDatabase : MonoBehaviour
             orderObject.transform.GetChild(5).GetComponent<TMP_Text>().text = reader["Type"].ToString();
             orderObject.transform.GetChild(6).GetComponent<TMP_Text>().text = reader["Address"].ToString();
             orderObject.transform.GetChild(7).GetComponent<TMP_Text>().text = reader["PhoneNumber"].ToString();
-            
+
             Debug.Log(reader["Total"].ToString());
            //Add to total, remove the dollar sign before operation
             total += float.Parse(reader["Total"].ToString().Remove(0,1));
