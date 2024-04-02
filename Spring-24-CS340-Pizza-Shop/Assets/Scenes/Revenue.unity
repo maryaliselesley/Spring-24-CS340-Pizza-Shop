@@ -1379,7 +1379,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 922173549}
   m_HandleRect: {fileID: 922173548}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1632,9 +1632,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 820275898}
-        m_TargetAssemblyTypeName: ClearHistory, Assembly-CSharp
-        m_MethodName: ClearHistoryButton
+      - m_Target: {fileID: 2059518206}
+        m_TargetAssemblyTypeName: RevenueDatabase, Assembly-CSharp
+        m_MethodName: TestDeliveryOrder
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2316,8 +2316,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 191157984}
   m_HandleRect: {fileID: 191157983}
   m_Direction: 0
-  m_Value: 0.00000017023297
-  m_Size: 0.6763358
+  m_Value: 0
+  m_Size: 0.6763359
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3315,13 +3315,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1608089910}
-        m_TargetAssemblyTypeName: RemoveOrder, Assembly-CSharp
-        m_MethodName: RemoveOrderButton
+      - m_Target: {fileID: 2059518202}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
