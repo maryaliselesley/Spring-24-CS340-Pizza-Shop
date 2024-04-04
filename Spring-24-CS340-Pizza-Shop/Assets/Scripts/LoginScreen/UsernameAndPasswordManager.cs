@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Security.Cryptography;
+using System;
 
 public class UsernameAndPasswordManager : MonoBehaviour
 {
@@ -23,13 +24,69 @@ public class UsernameAndPasswordManager : MonoBehaviour
     private string _employeePassword;
 
     private string _filePath;
-    private string _encryptionKey = "EKey";
-    private string _encryptionIV = "EIV";
+    private string _encryptionKey = "AEi0z4rdZRrIY6N7zD/qvg=="; // Use generator for this
+    private string _encryptionIV = "5zBz0dQ9p6eG6sRW"; // Use generator for this
 
     private void Start()
     {
         _filePath = Path.Combine(Application.dataPath, "Login Credentials.json");
         LoadLoginCredentials();
+    }
+
+    private string EncryptString(string plainText, string key, string iv)
+    {
+        byte[] keyBytes = System.Text.Encoding.UTF8.GetBytes(key);
+        byte[] ivBytes = System.Text.Encoding.UTF8.GetBytes(iv);
+        byte[] encryptedBytes;
+
+        using (Aes aesAlg = Aes.Create())
+        {
+            aesAlg.Key = keyBytes;
+            aesAlg.IV = ivBytes;
+
+            ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
+
+            using (MemoryStream msEncrypt = new MemoryStream())
+            {
+                using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                {
+                    using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
+                    {
+                        swEncrypt.Write(plainText);
+                    }
+                    encryptedBytes = msEncrypt.ToArray();
+                }
+            }
+        }
+        return Convert.ToBase64String(encryptedBytes);
+    }
+
+    private string DecryptString(string cipherText, string key, string iv)
+    {
+        byte[] cipherBytes = Convert.FromBase64String(cipherText);
+        byte[] keyBytes = System.Text.Encoding.UTF8.GetBytes(key);
+        byte[] ivBytes = System.Text.Encoding.UTF8.GetBytes(iv);
+        string plainText = null;
+
+        using (Aes aesAlg = Aes.Create())
+        {
+            aesAlg.Key = keyBytes;
+            aesAlg.IV = ivBytes;
+
+            ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+
+            using (MemoryStream msDecrypt = new MemoryStream(cipherBytes))
+            {
+                using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                {
+                    using (StreamReader srDecrypt = new StreamReader(csDecrypt))
+                    {
+                        plainText = srDecrypt.ReadToEnd();
+                    }
+                }
+            }
+        }
+        return plainText;
     }
 
     /// <summary>
@@ -39,10 +96,10 @@ public class UsernameAndPasswordManager : MonoBehaviour
     {
         if (File.Exists(_filePath))
         {
-            string json = File.ReadAllText(_filePath);
+            string encryptedJson = File.ReadAllText(_filePath);
+            string decryptedJson = DecryptString(encryptedJson, _encryptionKey, _encryptionIV);
 
-            // Deserialize JSON and pull data out of it
-            _loginCredentials = JsonUtility.FromJson<LoginCredentials>(json);
+            _loginCredentials = JsonUtility.FromJson<LoginCredentials>(decryptedJson);
             _managerUsername = _loginCredentials.ManagerLoginCredentials.ManagerUsername;
             _managerPassword = _loginCredentials.ManagerLoginCredentials.ManagerPassword;
             _employeerUsername = _loginCredentials.EmployeeLoginCredentials.EmployeeUsername;
@@ -60,7 +117,6 @@ public class UsernameAndPasswordManager : MonoBehaviour
             _loginCredentials.ManagerLoginCredentials.ManagerUsername = "Manager";
             _loginCredentials.ManagerLoginCredentials.ManagerPassword = "m1234";
 
-
             _loginCredentials.EmployeeLoginCredentials.EmployeeUsername = "Employee";
             _loginCredentials.EmployeeLoginCredentials.EmployeePassword = "e1234";
 
@@ -75,8 +131,9 @@ public class UsernameAndPasswordManager : MonoBehaviour
     private void SaveLoginCredentials(LoginCredentials loginCredentials)
     {
         string json = JsonUtility.ToJson(loginCredentials);
+        string encryptedJson = EncryptString(json, _encryptionKey, _encryptionIV);
 
-        File.WriteAllText(_filePath, json);
+        File.WriteAllText(_filePath, encryptedJson);
     }
 
     // TODO: Check for login. 2 if statements are not enough.
@@ -100,7 +157,6 @@ public class UsernameAndPasswordManager : MonoBehaviour
             Debug.Log("Employee Login Failed From UsernameAndPassowrdManager");
         }
     }
-
 }
 
 [System.Serializable]

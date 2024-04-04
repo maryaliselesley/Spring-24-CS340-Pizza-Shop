@@ -3262,7 +3262,7 @@ GameObject:
   - component: {fileID: 1603925767}
   - component: {fileID: 1603925766}
   m_Layer: 0
-  m_Name: Manager
+  m_Name: Username and Password Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
