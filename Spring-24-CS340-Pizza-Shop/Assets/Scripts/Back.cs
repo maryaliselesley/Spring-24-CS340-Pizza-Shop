@@ -19,23 +19,25 @@ public void AddCurrentSceneToLoadedScenes()
 public void LoadPreviousScene()
 {
     string previousScene = string.Empty;
-    if (previousScene.Count > 1) {
-    previousScene = [previousScene.Count -1]};
+    if (previousScene.Count > 1)
+    {
+        previousScene = [previousScene.Count - 1]};
     previousScene.RemoveAt(previousScene.Count - 1);
     Application.LoadLevel(previousScene);
 }
 else
-{ PreviousScene = PreviousScene[0]
+{
+    PreviousScene = PreviousScene[0]
         Application.LoadLevel(previousScene)
         gameObject.SetActive(false);
 }
 {
     //List<String> BackBM = new List <String>();
 
-   // public void goBack()
-   // {
-     ///   Debug.Log("The method worked yippee");
+    // public void goBack()
+    // {
+    ///   Debug.Log("The method worked yippee");
 
 
-   // }
+    // }
 }*/
