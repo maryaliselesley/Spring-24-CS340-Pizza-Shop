@@ -17,43 +17,43 @@ public class EditPizzaPrice : MonoBehaviour
     private float mediumPizzaPrice;
     private float largePizzaPrice;
 
-    private bool inputEdited; 
+    private bool inputEdited;
 
-    
+
     void Start()
     {
-        
         smallPizzaPrice = PlayerPrefs.GetFloat("smallPizzaPrice");
         mediumPizzaPrice = PlayerPrefs.GetFloat("mediumPizzaPrice");
         largePizzaPrice = PlayerPrefs.GetFloat("largePizzaPrice");
 
-        
         UpdateDisplayedPrices();
 
-        
         priceInputField.contentType = TMP_InputField.ContentType.DecimalNumber;
         priceInputField.characterValidation = TMP_InputField.CharacterValidation.Decimal;
     }
 
-    
+
     public void ClickedToggleSmall()
     {
         UpdateToggleState(smallToggle);
+        ClearInputField();
     }
 
-    
+
     public void ClickedToggleMedium()
     {
         UpdateToggleState(mediumToggle);
+        ClearInputField();
     }
 
-    
+
     public void ClickedToggleLarge()
     {
         UpdateToggleState(largeToggle);
+        ClearInputField();
     }
 
-   
+
     private void UpdateToggleState(Toggle toggle)
     {
         if (toggle.isOn)
@@ -69,14 +69,17 @@ public class EditPizzaPrice : MonoBehaviour
     {
         string newPriceText = priceInputField.text.Trim();
 
-        if (IsValidPriceInput(newPriceText))
+        if (!string.IsNullOrEmpty(newPriceText)) 
         {
-            inputEdited = true; 
-            ClearErrorMessage();
-        }
-        else
-        {
-            DisplayErrorMessage("Invalid price input. Please enter a valid price.");
+            if (IsValidPriceInput(newPriceText))
+            {
+                inputEdited = true;
+                ClearErrorMessage();
+            }
+            else
+            {
+                DisplayErrorMessage("Invalid price input. Price is too expensive.");
+            }
         }
     }
 
@@ -100,23 +103,26 @@ public class EditPizzaPrice : MonoBehaviour
                 largePizzaPrice = newPrice;
             }
 
-            
             PlayerPrefs.SetFloat("smallPizzaPrice", smallPizzaPrice);
             PlayerPrefs.SetFloat("mediumPizzaPrice", mediumPizzaPrice);
             PlayerPrefs.SetFloat("largePizzaPrice", largePizzaPrice);
 
-           
             UpdateDisplayedPrices();
 
-            
             inputEdited = false;
         }
+    }
+
+    // Clear input field
+    private void ClearInputField()
+    {
+        priceInputField.text = "";
     }
 
     // Validate price input
     private bool IsValidPriceInput(string input)
     {
-        string pattern = @"^\d+(\.\d{0,2})?$";
+        string pattern = @"^\d{1,6}(\.\d{0,2})?$";
         return System.Text.RegularExpressions.Regex.IsMatch(input, pattern);
     }
 
@@ -124,13 +130,14 @@ public class EditPizzaPrice : MonoBehaviour
     private void DisplayErrorMessage(string message)
     {
         errorMessageText.text = message;
-        priceInputField.text = ""; // Clear input field for another attempt
+        errorMessageText.gameObject.SetActive(true); 
     }
 
     // Clear error message
     private void ClearErrorMessage()
     {
-        errorMessageText.text = ""; // Clear error message in UI
+        errorMessageText.text = "";
+        errorMessageText.gameObject.SetActive(false); 
     }
 
     // Format price with two decimal places and a dollar sign
@@ -142,7 +149,6 @@ public class EditPizzaPrice : MonoBehaviour
     // Update the displayed prices under toggles
     private void UpdateDisplayedPrices()
     {
-        
         smallPriceText.text = FormatPrice(smallPizzaPrice);
         mediumPriceText.text = FormatPrice(mediumPizzaPrice);
         largePriceText.text = FormatPrice(largePizzaPrice);
