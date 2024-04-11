@@ -5,13 +5,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Transactions;
 using TMPro;
-using UnityEditor.MemoryProfiler;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
-using static UnityEngine.UIElements.UxmlAttributeDescription;
-using Transform = UnityEngine.Transform;
 
 // This is for testing only!!!
 public class AddTestOrderToDatabase : MonoBehaviour

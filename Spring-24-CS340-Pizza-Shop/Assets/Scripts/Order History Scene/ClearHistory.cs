@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Data;
 using TMPro;
 using UnityEngine;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class ClearHistory : MonoBehaviour
 {

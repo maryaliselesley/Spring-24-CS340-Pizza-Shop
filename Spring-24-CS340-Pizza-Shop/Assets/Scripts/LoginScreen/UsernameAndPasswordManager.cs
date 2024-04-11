@@ -1,14 +1,14 @@
 // Ignore Spelling: Username
 
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using System.Security.Cryptography;
 using System;
 
+/// <summary>
+/// Currently does not support adding additional sets of login credentials and does not support changes to login credentials.
+/// </summary>
 public class UsernameAndPasswordManager : MonoBehaviour
 {
     [Header("Only Used to Display Info")]
@@ -20,23 +20,33 @@ public class UsernameAndPasswordManager : MonoBehaviour
 
     private string _managerUsername;
     private string _managerPassword;
-    private string _employeerUsername;
+    private string _employeeUsername;
     private string _employeePassword;
 
-    private string _filePath;
+    private string _filePath; // Path that the json file will be stored at
     private string _encryptionKey = "AEi0z4rdZRrIY6N7zD/qvg=="; // Use generator for this
     private string _encryptionIV = "5zBz0dQ9p6eG6sRW"; // Use generator for this
 
     private void Start()
     {
+        // Json file only gets created after Start() has been called (if doesn't already exist)
         _filePath = Path.Combine(Application.dataPath, "Login Credentials.json");
         LoadLoginCredentials();
     }
 
+    /// <summary>
+    /// Use Advanced Encryption Standard algorithm to encrypt login credentials.
+    /// </summary>
+    /// <param name="plainText"></param>
+    /// <param name="key"></param>
+    /// <param name="iv"></param>
+    /// <returns></returns>
     private string EncryptString(string plainText, string key, string iv)
     {
+        // Convert key and iv using UTF-8 encoding
         byte[] keyBytes = System.Text.Encoding.UTF8.GetBytes(key);
         byte[] ivBytes = System.Text.Encoding.UTF8.GetBytes(iv);
+
         byte[] encryptedBytes;
 
         using (Aes aesAlg = Aes.Create())
@@ -44,28 +54,37 @@ public class UsernameAndPasswordManager : MonoBehaviour
             aesAlg.Key = keyBytes;
             aesAlg.IV = ivBytes;
 
+            // Perform encryption with an encryptor
             ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
-
-            using (MemoryStream msEncrypt = new MemoryStream())
+            using (MemoryStream memoryStream = new MemoryStream())
             {
-                using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                using (CryptoStream cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
                 {
-                    using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
+                    using (StreamWriter streamWriter = new StreamWriter(cryptoStream))
                     {
-                        swEncrypt.Write(plainText);
+                        streamWriter.Write(plainText);
                     }
-                    encryptedBytes = msEncrypt.ToArray();
+                    encryptedBytes = memoryStream.ToArray();
                 }
             }
         }
         return Convert.ToBase64String(encryptedBytes);
     }
 
+    /// <summary>
+    /// Use Advanced Encryption Standard algorithm to decrypt encrypted text to get login credentials.
+    /// </summary>
+    /// <param name="cipherText"></param>
+    /// <param name="key"></param>
+    /// <param name="iv"></param>
+    /// <returns></returns>
     private string DecryptString(string cipherText, string key, string iv)
     {
+        // Convert encrypted text to bytes
         byte[] cipherBytes = Convert.FromBase64String(cipherText);
         byte[] keyBytes = System.Text.Encoding.UTF8.GetBytes(key);
         byte[] ivBytes = System.Text.Encoding.UTF8.GetBytes(iv);
+
         string plainText = null;
 
         using (Aes aesAlg = Aes.Create())
@@ -73,20 +92,21 @@ public class UsernameAndPasswordManager : MonoBehaviour
             aesAlg.Key = keyBytes;
             aesAlg.IV = ivBytes;
 
+            // Perform decryption with a decryptor
             ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
-
-            using (MemoryStream msDecrypt = new MemoryStream(cipherBytes))
+            using (MemoryStream memoryStream = new MemoryStream(cipherBytes))
             {
-                using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                using (CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
                 {
-                    using (StreamReader srDecrypt = new StreamReader(csDecrypt))
+                    using (StreamReader streamReader = new StreamReader(cryptoStream))
                     {
-                        plainText = srDecrypt.ReadToEnd();
+                        plainText = streamReader.ReadToEnd();
                     }
                 }
             }
         }
-        return plainText;
+
+        return plainText; // Everything's stored in a single string
     }
 
     /// <summary>
@@ -102,11 +122,11 @@ public class UsernameAndPasswordManager : MonoBehaviour
             _loginCredentials = JsonUtility.FromJson<LoginCredentials>(decryptedJson);
             _managerUsername = _loginCredentials.ManagerLoginCredentials.ManagerUsername;
             _managerPassword = _loginCredentials.ManagerLoginCredentials.ManagerPassword;
-            _employeerUsername = _loginCredentials.EmployeeLoginCredentials.EmployeeUsername;
+            _employeeUsername = _loginCredentials.EmployeeLoginCredentials.EmployeeUsername;
             _employeePassword = _loginCredentials.EmployeeLoginCredentials.EmployeePassword;
 
             Debug.Log($"Manager credentials are loaded. Username: {_managerUsername}, Password: {_managerPassword}");
-            Debug.Log($"Employee credentials are loaded. Username: {_employeerUsername}, Password: {_employeePassword}");
+            Debug.Log($"Employee credentials are loaded. Username: {_employeeUsername}, Password: {_employeePassword}");
         }
         else
         {
@@ -125,7 +145,8 @@ public class UsernameAndPasswordManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Save both manager and employee login credentials.
+    /// Save both manager and employee login credentials. <br/>
+    /// Currently only used when there are no login credentials and a new set of login credentials are auto created.
     /// </summary>
     /// <param name="loginCredentials"></param>
     private void SaveLoginCredentials(LoginCredentials loginCredentials)
@@ -148,7 +169,7 @@ public class UsernameAndPasswordManager : MonoBehaviour
             Debug.Log("Manager Login Failed From UsernameAndPassowrdManager");
         }
 
-        if (_usernameField.text == _employeerUsername && _passwordField.text == _employeePassword)
+        if (_usernameField.text == _employeeUsername && _passwordField.text == _employeePassword)
         {
             Debug.Log("Employee Login Successful From UsernameAndPassowrdManager");
         }
