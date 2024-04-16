@@ -36,7 +36,8 @@ public class AddTestOrderToDatabase : MonoBehaviour
             connection.Close();
         }
 
-        OrderHistoryDatabase.instance.DisplayDatabase(true);
+        // Show database after order has been added
+        OrderHistoryDatabase.instance.DisplayDatabase();
     }
 
     public void UpdateScrollBar()

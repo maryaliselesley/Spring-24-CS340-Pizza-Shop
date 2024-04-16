@@ -17,9 +17,6 @@ public class FinishPayment : MonoBehaviour
     [SerializeField] private GameObject _addressWarningPopup; // Shows up when phone number is entered and does not confront the format
     [SerializeField] private TMP_Text _addressWarningMessage;
 
-    private string _phoneNumber;
-    private string _address;
-
     private int _numberOfSmallCheesePizza;
     private int _numberOfSmallVegetablePizza;
     private int _numberOfSmallMeatPizza;
@@ -55,6 +52,16 @@ public class FinishPayment : MonoBehaviour
         // SceneManager.LoadScene(PlayerPrefs.GetString("AccessLevel"));
     }
 
+    /// <summary>
+    /// Add an order with specified order information to the database.
+    /// </summary>
+    /// <param name="orderItems"></param>
+    /// <param name="orderDate"></param>
+    /// <param name="orderTime"></param>
+    /// <param name="orderTotal"></param>
+    /// <param name="orderType"></param>
+    /// <param name="orderAddress"></param>
+    /// <param name="orderPhoneNumber"></param>
     private void AddOrderToDatabase(string orderItems, string orderDate, string orderTime, string orderTotal, string orderType, string orderAddress, string orderPhoneNumber)
     {
         string databaseName = "URI=file:OrderDatabase.db";
@@ -97,7 +104,7 @@ public class FinishPayment : MonoBehaviour
             else if (pizza.name.Contains("LargeMeat")) _numberOfLargeMeatPizza++;
         }
 
-        string orderedPizza = "";
+        string orderedPizza = ""; // A single string to store all ordered pizza, each in a separate line
         if (_numberOfSmallCheesePizza != 0) orderedPizza += "Small Cheese x" + _numberOfSmallCheesePizza + "\n";
         if (_numberOfSmallVegetablePizza != 0) orderedPizza += "Small Vege x" + _numberOfSmallVegetablePizza + "\n";
         if (_numberOfSmallMeatPizza != 0) orderedPizza += "Small Meat x" + _numberOfSmallMeatPizza + "\n";
@@ -114,9 +121,9 @@ public class FinishPayment : MonoBehaviour
     }
 
     /// <summary>
-    /// Get order data and time by using System.DateTime.
-    /// Split year, month, day, hour, minute, and second and concatenate data and time separately.
-    /// </summary>
+    /// Get order month, day, and year by using System.DateTime.
+    /// Split year, month, day, and concatenate them.
+    /// <returns></returns>
     private string GetOrderDate()
     {
         System.DateTime currentDateAndTime = System.DateTime.Now;
@@ -128,6 +135,11 @@ public class FinishPayment : MonoBehaviour
         return month + "/" + day + "/" + year;
     }
 
+    /// <summary>
+    /// Get order hour, minute, and second by using System.DateTime.
+    /// Split hour, minute, second, and concatenate them.
+    /// </summary>
+    /// <returns></returns>
     private string GetOrderTime()
     {
         System.DateTime currentDateAndTime = System.DateTime.Now;
@@ -140,7 +152,7 @@ public class FinishPayment : MonoBehaviour
 
     /// <summary>
     /// Get the total of the order by calling the total variable in PriceManager.
-    /// </summary>
+    /// <returns></returns>
     private string GetOrderTotal()
     {
         return "$" + OrderTotalManager.total.ToString();
@@ -148,22 +160,27 @@ public class FinishPayment : MonoBehaviour
 
     /// <summary>
     /// Get the order type by getting the scene name
-    /// </summary>
+    /// <returns></returns>
     private string GetOrderType()
     {
         return SceneManager.GetActiveScene().name;
     }
 
     /// <summary>
-    /// Gets the address by getting the text in the input field. <br/>
+    /// Gets the address by getting the text in the address input field. <br/>
     /// Check if input fields are null so it works for all 3 ordering scenes.
-    /// </summary>
+    /// <returns></returns>
     private string GetAddress()
     {
         if (_addressInputField != null) return _addressInputField.text;
         else return "";
     }
 
+    /// <summary>
+    /// Get the phone number by getting the text in the phone number input field. <br/>
+    /// Check if input fields are null so it works for all 3 ordering scenes.
+    /// </summary>
+    /// <returns></returns>
     private string GetPhoneNumber()
     {
         if (_phoneNumberInputField != null) return _phoneNumberInputField.text;
@@ -205,6 +222,10 @@ public class FinishPayment : MonoBehaviour
         return regex.IsMatch(phoneNumber);
     }
 
+    /// <summary>
+    /// Check if a address is valid by look at if the input field is null. Pops a warning if address is not valid.
+    /// </summary>
+    /// <returns></returns>
     private bool IsAddressValid()
     {
         if (_phoneNumberInputField != null)

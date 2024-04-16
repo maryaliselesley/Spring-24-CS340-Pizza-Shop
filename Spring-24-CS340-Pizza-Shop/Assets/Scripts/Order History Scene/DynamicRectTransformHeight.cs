@@ -14,7 +14,7 @@ public class DynamicRectTransformHeight : MonoBehaviour
     }
 
     /// <summary>
-    /// Adjust the height of the "Pizza" GameObject based on how many children it has.
+    /// Adjust the height of the "Pizza" GameObject based on how many children it has. <br/>
     /// Each increase is a static value.
     /// </summary>
     private void AdjustHeight()
@@ -22,19 +22,10 @@ public class DynamicRectTransformHeight : MonoBehaviour
         int numberOfChildren = _pizzaInTheOrder.transform.childCount;
         float height;
 
-        if (numberOfChildren == 1)
-        {
-            height = 71.338f;
-        }
-        else if (numberOfChildren > 1)
-        {
-            height = numberOfChildren * 46;
-        }
-        else
-        {
-            height = 71.338f;
-        }
+        if (numberOfChildren > 1) height = numberOfChildren * 46;
+        else height = 71.338f;
 
+        // Get the rect transform and change the x size of it
         RectTransform recTransform = GetComponent<RectTransform>();
         recTransform.sizeDelta = new Vector2(recTransform.sizeDelta.x, height);
     }

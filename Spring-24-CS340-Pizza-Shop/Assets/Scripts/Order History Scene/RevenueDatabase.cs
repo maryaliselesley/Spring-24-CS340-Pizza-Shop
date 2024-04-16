@@ -21,8 +21,6 @@ public class RevenueDatabase : MonoBehaviour
 
     private float total;
 
-
-
     private void Awake()
     {
         if (instance != null && instance != this) Destroy(this);
@@ -31,8 +29,8 @@ public class RevenueDatabase : MonoBehaviour
 
     private void Start()
     {
-        counter=0;
-        total=0.00f;
+        counter = 0;
+        total = 0.00f;
 
         textCount.GetComponent<TMP_Text>().text = counter.ToString();
         textTotal.GetComponent<TMP_Text>().text = "$" + total.ToString();
@@ -41,9 +39,7 @@ public class RevenueDatabase : MonoBehaviour
     }
 
     /// <summary>
-    /// Display orders by instantiating an orderObject prefab and change the text fields of all children to reflect the information of the order.
-    /// If need to redisplay what orders needs to be on the canvas, set isRedisplay to true.
-    /// Redisplay bool is used for searching order and adding order (adding order is test only currently)
+    /// Display orders by destroy any order objects and instantiating order objects and change the text fields of all children to reflect the information of the order.
     /// </summary>
     public void DisplayDatabase(string SQLCommand = "SELECT * FROM Orders")
     {
@@ -89,7 +85,6 @@ public class RevenueDatabase : MonoBehaviour
         DisplayDatabase("SELECT * FROM Orders WHERE Type=\"Delivery\"");
     }
 
-
     /// <summary>
     /// Instantiate order objects with the information from database.
     /// Reader will go through the table and reads each cell of the table.
@@ -114,7 +109,6 @@ public class RevenueDatabase : MonoBehaviour
                 // Instantiate the GameObject to as a child of orderObject and set its text to the pizza info from database
                 GameObject pizza = Instantiate(orderPizzaPrefab, orderObject.transform.GetChild(1).transform);
                 pizza.GetComponent<TMP_Text>().text = orderedPizza;
-
             }
 
             // Set each field of the order object to reflect what's in the database
@@ -126,12 +120,11 @@ public class RevenueDatabase : MonoBehaviour
             orderObject.transform.GetChild(7).GetComponent<TMP_Text>().text = reader["PhoneNumber"].ToString();
 
             Debug.Log(reader["Total"].ToString());
-           //Add to total, remove the dollar sign before operation
-            total += float.Parse(reader["Total"].ToString().Remove(0,1));
+            //Add to total, remove the dollar sign before operation
+            total += float.Parse(reader["Total"].ToString().Remove(0, 1));
 
             textCount.GetComponent<TMP_Text>().text = counter.ToString();
             textTotal.GetComponent<TMP_Text>().text = "$" + total.ToString();
-
         }
     }
 

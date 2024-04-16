@@ -119,6 +119,7 @@ public class UsernameAndPasswordManager : MonoBehaviour
             string encryptedJson = File.ReadAllText(_filePath);
             string decryptedJson = DecryptString(encryptedJson, _encryptionKey, _encryptionIV);
 
+            // Extract the usernames and passwords from the decrypted string
             _loginCredentials = JsonUtility.FromJson<LoginCredentials>(decryptedJson);
             _managerUsername = _loginCredentials.ManagerLoginCredentials.ManagerUsername;
             _managerPassword = _loginCredentials.ManagerLoginCredentials.ManagerPassword;

@@ -21,21 +21,15 @@ public class OrderHistoryDatabase : MonoBehaviour
 
     private void Start()
     {
-        DisplayDatabase(false);
+        DisplayDatabase();
     }
 
     /// <summary>
-    /// Display orders by instantiate an orderObject prefab and change the text fields of all children to reflect the information of the order.
-    /// If need to redisplay what orders needs to be on the canvas, set isRedisplay to true.
-    /// Redisplay bool is used for searching order and adding order (adding order is test only currently)
+    /// Display orders by destroy any order objects and instantiating order objects and change the text fields of all children to reflect the information of the order.
     /// </summary>
-    public void DisplayDatabase(bool isRedisplay)
+    public void DisplayDatabase()
     {
-        // If is redisplaying the database, destroy all existing order objects before proceeding to display orders
-        if (isRedisplay)
-        {
-            DestroyOnScreenOrderObjects();
-        }
+        DestroyOnScreenOrderObjects();
 
         string databaseName = "URI=file:OrderDatabase.db";
 
