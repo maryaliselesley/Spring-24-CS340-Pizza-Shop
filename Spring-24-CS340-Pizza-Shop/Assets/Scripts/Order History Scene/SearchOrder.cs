@@ -39,7 +39,7 @@ public class SearchOrder : MonoBehaviour
         // If nothing is in the search box, redisplay database
         if (_searchInputField.text == "")
         {
-            OrderHistoryDatabase.instance.DisplayDatabase();
+            OrderHistoryDatabase.Instance.DisplayDatabase();
             return;
         }
 
@@ -48,7 +48,7 @@ public class SearchOrder : MonoBehaviour
         {
             _warningMessage.text = "Input is incorrect. Make sure it's numbers only.";
             _warningMessage.gameObject.SetActive(true);
-            OrderHistoryDatabase.instance.DisplayDatabase();
+            OrderHistoryDatabase.Instance.DisplayDatabase();
             return;
         }
 
@@ -71,7 +71,7 @@ public class SearchOrder : MonoBehaviour
     private IEnumerator Search(string orderNumber)
     {
         // Destroy the on screen order objects
-        OrderHistoryDatabase.instance.DestroyOnScreenOrderObjects();
+        OrderHistoryDatabase.Instance.DestroyOnScreenOrderObjects();
 
         // Redisplay database content
         string databaseName = "URI=file:OrderDatabase.db";
@@ -86,7 +86,7 @@ public class SearchOrder : MonoBehaviour
 
                 using (IDataReader reader = command.ExecuteReader())
                 {
-                    OrderHistoryDatabase.instance.InstantiateOrderObjects(reader); // Show the order by instantiating an order prefab
+                    OrderHistoryDatabase.Instance.InstantiateOrderObjects(reader); // Show the order by instantiating an order prefab
                     reader.Close();
                 }
             }

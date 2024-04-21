@@ -11,8 +11,9 @@ public class AddPizza : MonoBehaviour
     [SerializeField] private Scrollbar _scrollBar;
 
     /// <summary>
-    /// This is called with Pizza buttons.
-    /// Instantiate a pizza GameObject and parent it to "Content" GameObject that holds all pizza.
+    /// This is called with Pizza buttons. <br/>
+    /// Instantiate a pizza GameObject and parent it to "Content" GameObject that holds all pizza. <br/>
+    /// Using tags allow additional pizza types to be added with only a tag comparison rather than creating a completely new prefab.
     /// </summary>
     public void AddPizzaToItemList()
     {

@@ -8,15 +8,15 @@ using UnityEngine.UI;
 
 public class OrderHistoryDatabase : MonoBehaviour
 {
-    public static OrderHistoryDatabase instance;
-    public GameObject orderHistoryContent; // Object that holds all order objects
-    public GameObject orderObjectPrefab; // Object that has all order information
-    public GameObject orderPizzaPrefab; // Pizza in the order
+    public static OrderHistoryDatabase Instance;
+    [SerializeField] private GameObject _orderHistoryContent; // Object that holds all order objects
+    [SerializeField] private GameObject _orderObjectPrefab; // Object that has all order information
+    [SerializeField] private GameObject _orderPizzaPrefab; // Pizza in the order
 
     private void Awake()
     {
-        if (instance != null && instance != this) Destroy(this);
-        else instance = this;
+        if (Instance != null && Instance != this) Destroy(this);
+        else Instance = this;
     }
 
     private void Start()
@@ -63,7 +63,7 @@ public class OrderHistoryDatabase : MonoBehaviour
         while (reader.Read())
         {
             // Instantiate a new prefab and set it to child of "content" GameObject
-            GameObject orderObject = Instantiate(orderObjectPrefab, orderHistoryContent.transform);
+            GameObject orderObject = Instantiate(_orderObjectPrefab, _orderHistoryContent.transform);
             orderObject.transform.GetChild(0).GetComponent<TMP_Text>().text = reader["OrderID"].ToString();
 
             // Split the string of pizzas based on lines
@@ -73,7 +73,7 @@ public class OrderHistoryDatabase : MonoBehaviour
             foreach (string orderedPizza in allOrderedPizza)
             {
                 // Instantiate the GameObject to as a child of orderObject and set its text to the pizza info from database
-                GameObject pizza = Instantiate(orderPizzaPrefab, orderObject.transform.GetChild(1).transform);
+                GameObject pizza = Instantiate(_orderPizzaPrefab, orderObject.transform.GetChild(1).transform);
                 pizza.GetComponent<TMP_Text>().text = orderedPizza;
             }
 
@@ -92,7 +92,7 @@ public class OrderHistoryDatabase : MonoBehaviour
     /// </summary>
     public void DestroyOnScreenOrderObjects()
     {
-        GameObject[] orderObjects = GetChildGameObjects(orderHistoryContent);
+        GameObject[] orderObjects = GetChildGameObjects(_orderHistoryContent);
 
         for (int i = 1; i < orderObjects.Length; i++)
         {

@@ -33,7 +33,7 @@ public class ClearHistory : MonoBehaviour
                 command.ExecuteNonQuery(); // Used for SQL statements that don't return any data, such as INSERT, UPDATE, DELETE
             }
 
-            OrderHistoryDatabase.instance.DestroyOnScreenOrderObjects();
+            OrderHistoryDatabase.Instance.DestroyOnScreenOrderObjects();
 
             connection.Close();
         }
