@@ -5,13 +5,27 @@ using TMPro;
 using UnityEngine;
 using System.Security.Cryptography;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Currently does not support adding additional sets of login credentials and does not support changes to login credentials.
 /// </summary>
 public class UsernameAndPasswordManager : MonoBehaviour
 {
-    [Header("Only Used to Display Info")]
+    [SerializeField]
+    private GameObject warningMessage;
+
+    [SerializeField]
+    private string employeeScene = "Employee";
+    
+    [SerializeField]
+    private string managerScene = "Manager";
+
+
+    [Header("Credentials - Display")]
     [SerializeField] private LoginCredentials _loginCredentials;
 
     [Header("Input Fields")]
@@ -161,23 +175,20 @@ public class UsernameAndPasswordManager : MonoBehaviour
     // TODO: Check for login. 2 if statements are not enough.
     public void Login()
     {
-        if (_usernameField.text == _managerUsername && _passwordField.text == _managerPassword)
-        {
-            Debug.Log("Manager Login Successful From UsernameAndPassowrdManager");
-        }
-        else
-        {
-            Debug.Log("Manager Login Failed From UsernameAndPassowrdManager");
+        if (_usernameField.text == _managerUsername && _passwordField.text == _managerPassword) {
+            Debug.Log("Manager Login Successful From UsernameAndPasswordManager");
+            warningMessage.SetActive(false);
+            SceneManager.LoadScene(managerScene);
+            
         }
 
-        if (_usernameField.text == _employeeUsername && _passwordField.text == _employeePassword)
-        {
+        else if (_usernameField.text == _employeeUsername && _passwordField.text == _employeePassword) {
             Debug.Log("Employee Login Successful From UsernameAndPassowrdManager");
+            warningMessage.SetActive(false);
+            SceneManager.LoadScene(employeeScene);
         }
-        else
-        {
-            Debug.Log("Employee Login Failed From UsernameAndPassowrdManager");
-        }
+
+        else  {warningMessage.SetActive(true);}
     }
 }
 
