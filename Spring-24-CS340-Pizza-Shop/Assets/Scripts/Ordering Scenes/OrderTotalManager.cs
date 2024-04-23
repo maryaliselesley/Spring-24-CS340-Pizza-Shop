@@ -95,13 +95,7 @@ public class OrderTotalManager : MonoBehaviour
     /// <returns></returns>
     private double RoundToTwoDecimalPlaces(double value)
     {
-        if (value * 100 % 1 == 0)
-        {
-            return value;
-        }
-        else
-        {
-            return Math.Round(value, 2);
-        }
+        if (value * 100 % 1 == 0) return value;
+        else return Math.Round(value, 2);
     }
 }

@@ -11,8 +11,9 @@ public class AddPizza : MonoBehaviour
     [SerializeField] private Scrollbar _scrollBar;
 
     /// <summary>
-    /// This is called with Pizza buttons.
-    /// Instantiate a pizza GameObject and parent it to "Content" GameObject that holds all pizza.
+    /// This is called with Pizza buttons. <br/>
+    /// Instantiate a pizza GameObject and parent it to "Content" GameObject that holds all pizza. <br/>
+    /// Using tags allow additional pizza types to be added with only a tag comparison rather than creating a completely new prefab.
     /// </summary>
     public void AddPizzaToItemList()
     {
@@ -22,7 +23,6 @@ public class AddPizza : MonoBehaviour
         // Look for tags to concatenate price to text
         if (newPizza.tag == "Small Pizza")
         {
-            Debug.Log("Price is: " + PlayerPrefs.GetFloat("smallPizzaPrice").ToString());
             newPizza.GetComponent<TMP_Text>().text += PlayerPrefs.GetFloat("smallPizzaPrice").ToString();
         }
         else if (newPizza.tag == "Medium Pizza")

@@ -9,27 +9,30 @@ EditorBuildSettings:
     path: Assets/Scenes/Log In Page.unity
     guid: 4287cef4c158f9e4fbf6bedd9fcb9a43
   - enabled: 1
+    path: Assets/Scenes/Manager.unity
+    guid: 3b313c300b666f94e89b7578ba83a7e5
+  - enabled: 1
     path: Assets/Scenes/Delivery.unity
     guid: d352dadf689955448b4f409df3889fed
   - enabled: 1
     path: Assets/Scenes/Dine In.unity
     guid: 97211aaf1f66d634e89cd9b2c1614585
   - enabled: 1
+    path: Assets/Scenes/Take Out.unity
+    guid: de2ba1e68349a9a4ea92e215883a186f
+  - enabled: 1
     path: Assets/Scenes/Employee List.unity
     guid: 3a69452ad5ecd4441a19a1260ac0fd57
-  - enabled: 1
-    path: Assets/Scenes/Order History.unity
-    guid: 33c2745a2664e774aa16cf825f00e36e
   - enabled: 1
     path: Assets/Scenes/Pizza Information.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/Take Out.unity
-    guid: de2ba1e68349a9a4ea92e215883a186f
-  - enabled: 1
-    path: Assets/Scenes/Manager.unity
-    guid: 3b313c300b666f94e89b7578ba83a7e5
+    path: Assets/Scenes/Order History.unity
+    guid: 33c2745a2664e774aa16cf825f00e36e
   - enabled: 1
     path: Assets/Scenes/Revenue.unity
     guid: bc08f2cf006b5f443881fe4508baf1e6
+  - enabled: 1
+    path: Assets/Scenes/Employee.unity
+    guid: b67a44c70029ec741aa438bda48be827
   m_configObjects: {}

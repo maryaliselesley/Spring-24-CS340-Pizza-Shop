@@ -492,7 +492,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &133277702
 RectTransform:
   m_ObjectHideFlags: 0
@@ -999,18 +999,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1507246184}
-        m_TargetAssemblyTypeName: BasicPasswordCheck, Assembly-CSharp
-        m_MethodName: CheckPassword
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Example Scene #1
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1603925766}
         m_TargetAssemblyTypeName: UsernameAndPasswordManager, Assembly-CSharp
         m_MethodName: Login
@@ -2868,7 +2856,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1374053486
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3261,6 +3249,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1603925767}
   - component: {fileID: 1603925766}
+  - component: {fileID: 1603925769}
+  - component: {fileID: 1603925768}
   m_Layer: 0
   m_Name: Username and Password Manager
   m_TagString: Untagged
@@ -3280,6 +3270,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a88c042813e68304e9befda0ee3004f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  warningMessage: {fileID: 983603896}
+  employeeScene: Employee
+  managerScene: Manager
   _loginCredentials:
     ManagerLoginCredentials:
       ManagerUsername: 
@@ -3304,6 +3297,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1603925768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603925765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c6ed07a4e3c6914b9ec77ffa8481628, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  username: {fileID: 1589079470}
+  password: {fileID: 575200606}
+  signIn: {fileID: 331514055}
+--- !u!114 &1603925769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603925765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7695ed2df7ee46469dfc33144f1bc5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1629875514
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,34 +8,28 @@ using UnityEngine.UI;
 
 public class OrderHistoryDatabase : MonoBehaviour
 {
-    public static OrderHistoryDatabase instance;
-    public GameObject orderHistoryContent; // Object that holds all order objects
-    public GameObject orderObjectPrefab; // Object that has all order information
-    public GameObject orderPizzaPrefab; // Pizza in the order
+    public static OrderHistoryDatabase Instance;
+    [SerializeField] private GameObject _orderHistoryContent; // Object that holds all order objects
+    [SerializeField] private GameObject _orderObjectPrefab; // Object that has all order information
+    [SerializeField] private GameObject _orderPizzaPrefab; // Pizza in the order
 
     private void Awake()
     {
-        if (instance != null && instance != this) Destroy(this);
-        else instance = this;
+        if (Instance != null && Instance != this) Destroy(this);
+        else Instance = this;
     }
 
     private void Start()
     {
-        DisplayDatabase(false);
+        DisplayDatabase();
     }
 
     /// <summary>
-    /// Display orders by instantiate an orderObject prefab and change the text fields of all children to reflect the information of the order.
-    /// If need to redisplay what orders needs to be on the canvas, set isRedisplay to true.
-    /// Redisplay bool is used for searching order and adding order (adding order is test only currently)
+    /// Display orders by destroy any order objects and instantiating order objects and change the text fields of all children to reflect the information of the order.
     /// </summary>
-    public void DisplayDatabase(bool isRedisplay)
+    public void DisplayDatabase()
     {
-        // If is redisplaying the database, destroy all existing order objects before proceeding to display orders
-        if (isRedisplay)
-        {
-            DestroyOnScreenOrderObjects();
-        }
+        DestroyOnScreenOrderObjects();
 
         string databaseName = "URI=file:OrderDatabase.db";
 
@@ -69,7 +63,7 @@ public class OrderHistoryDatabase : MonoBehaviour
         while (reader.Read())
         {
             // Instantiate a new prefab and set it to child of "content" GameObject
-            GameObject orderObject = Instantiate(orderObjectPrefab, orderHistoryContent.transform);
+            GameObject orderObject = Instantiate(_orderObjectPrefab, _orderHistoryContent.transform);
             orderObject.transform.GetChild(0).GetComponent<TMP_Text>().text = reader["OrderID"].ToString();
 
             // Split the string of pizzas based on lines
@@ -79,7 +73,7 @@ public class OrderHistoryDatabase : MonoBehaviour
             foreach (string orderedPizza in allOrderedPizza)
             {
                 // Instantiate the GameObject to as a child of orderObject and set its text to the pizza info from database
-                GameObject pizza = Instantiate(orderPizzaPrefab, orderObject.transform.GetChild(1).transform);
+                GameObject pizza = Instantiate(_orderPizzaPrefab, orderObject.transform.GetChild(1).transform);
                 pizza.GetComponent<TMP_Text>().text = orderedPizza;
             }
 
@@ -98,7 +92,7 @@ public class OrderHistoryDatabase : MonoBehaviour
     /// </summary>
     public void DestroyOnScreenOrderObjects()
     {
-        GameObject[] orderObjects = GetChildGameObjects(orderHistoryContent);
+        GameObject[] orderObjects = GetChildGameObjects(_orderHistoryContent);
 
         for (int i = 1; i < orderObjects.Length; i++)
         {

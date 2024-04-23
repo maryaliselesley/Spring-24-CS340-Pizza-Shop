@@ -13,6 +13,9 @@ public class DeleteAllPlayerPrefKeys : MonoBehaviour
         "largePizzaPrice"
     };
 
+    /// <summary>
+    /// Set the values of player prefs keys
+    /// </summary>
     public void SetPlayerPrefsValues()
     {
         PlayerPrefs.SetFloat("smallPizzaPrice", 4.99f);
@@ -20,6 +23,9 @@ public class DeleteAllPlayerPrefKeys : MonoBehaviour
         PlayerPrefs.SetFloat("largePizzaPrice", 14.99f);
     }
 
+    /// <summary>
+    /// Delete all stored keys in player prefs.
+    /// </summary>
     public void DeleteAllKeys()
     {
         PlayerPrefs.DeleteAll();
@@ -31,6 +37,10 @@ public class DeleteAllPlayerPrefKeys : MonoBehaviour
         Debug.Log($"<color=green>=============================================</color>");
     }
 
+    /// <summary>
+    /// Delete a particular key, specified by the keyName parameter.
+    /// </summary>
+    /// <param name="keyName"></param>
     private void DeleteKey(string keyName)
     {
         if (PlayerPrefs.HasKey(keyName))

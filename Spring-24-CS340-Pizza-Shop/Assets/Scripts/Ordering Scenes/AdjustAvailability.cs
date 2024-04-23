@@ -24,8 +24,9 @@ public class AdjustAvailability : MonoBehaviour
     }
 
     /// <summary>
-    /// This is called with Availability buttons for pizza.
-    /// Switch between "Available" and "OUT". In the "OUT" state, pizza button will not be interactable and text will disappear.
+    /// This is called with Availability buttons for pizza.<br/>
+    /// Switch between "Available" and "OUT".<br/>
+    /// In the "OUT" state, pizza button will not be interactable and text will disappear.
     /// </summary>
     public void ChangeAvailabilityState()
     {
