@@ -1,4 +1,3 @@
-// Ignore Spelling: Username
 
 using System.IO;
 using TMPro;
@@ -10,9 +9,6 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-/// <summary>
-/// Currently does not support adding additional sets of login credentials and does not support changes to login credentials.
-/// </summary>
 public class UsernameAndPasswordManager : MonoBehaviour
 {
     [SerializeField]
@@ -28,6 +24,7 @@ public class UsernameAndPasswordManager : MonoBehaviour
     [Header("Credentials - Display")]
     [SerializeField] private LoginCredentials _loginCredentials;
 
+    
     [Header("Input Fields")]
     [SerializeField] private TMP_InputField _usernameField;
     [SerializeField] private TMP_InputField _passwordField;
@@ -37,13 +34,13 @@ public class UsernameAndPasswordManager : MonoBehaviour
     private string _employeeUsername;
     private string _employeePassword;
 
-    private string _filePath; // Path that the json file will be stored at
-    private string _encryptionKey = "AEi0z4rdZRrIY6N7zD/qvg=="; // Use generator for this
-    private string _encryptionIV = "5zBz0dQ9p6eG6sRW"; // Use generator for this
+    private string _filePath; // json file path
+    private string _encryptionKey = "AEi0z4rdZRrIY6N7zD/qvg==";
+    private string _encryptionIV = "5zBz0dQ9p6eG6sRW";
 
     private void Start()
     {
-        // Json file only gets created after Start() has been called (if doesn't already exist)
+        // Json file created at Start() (if doesn't already exist)
         _filePath = Path.Combine(Application.dataPath, "Login Credentials.json");
         LoadLoginCredentials();
     }
