@@ -1,41 +1,44 @@
-/*using UnityEngine;
 using System.Collections.Generic;
-// to test the back button, only start at the login page
-public class Back : MonoBehaviour
-    private List<string> PreviousScene = new List<string>();
-private void Start()
+using UnityEngine;
+
+using UnityEngine.SceneManagement;
+
+public class BackButton : MonoBehaviour
 {
-    Back.Add(Application.loadedLevelName);
-    GameObject.SetGameObjectsActive(false);
+    // Array to store scene names
+    private static List<string> sceneHistory = new List<string>();
+   
+    void Start()
+    {
+        // Initialize the scene history array with capacity for 10 scenes
 
+        // Call a method to add the current scene to the array
+        if (sceneHistory.Contains(SceneManager.GetActiveScene().name)) {
+            return;
+        
+        }
+       sceneHistory.Add(SceneManager.GetActiveScene().name);
+        Debug.Log(string.Format("Here's the list: ({0}).", string.Join(", ", sceneHistory)));
+    }
+
+  
+  
+
+    // Method to go back to the previous scene
+    public void GoBack()
+    {
+        // Check if there are scenes in history
+
+        if (sceneHistory.Count > 0)
+        {
+            sceneHistory.RemoveAt( sceneHistory.Count-1);
+            Debug.Log(" SceneHistory is going back to " + sceneHistory[sceneHistory.Count - 1] + " ");
+            SceneManager.LoadScene(sceneHistory[sceneHistory.Count - 1]); 
+      
+        }
+        else
+        {
+            Debug.LogWarning("No previous scene available.");
+        }
+    }
 }
-
-public void AddCurrentSceneToLoadedScenes()
-{
-    PreviousScene.Add(Application.loadedLevelName);
-
-}
-
-public void LoadPreviousScene()
-{
-    string previousScene = string.Empty;
-    if (previousScene.Count > 1) {
-    previousScene = [previousScene.Count -1]};
-    previousScene.RemoveAt(previousScene.Count - 1);
-    Application.LoadLevel(previousScene);
-}
-else
-{ PreviousScene = PreviousScene[0]
-        Application.LoadLevel(previousScene)
-        gameObject.SetActive(false);
-}
-{
-    //List<String> BackBM = new List <String>();
-
-   // public void goBack()
-   // {
-     ///   Debug.Log("The method worked yippee");
-
-
-   // }
-}*/

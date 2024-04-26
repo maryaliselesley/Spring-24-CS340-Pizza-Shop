@@ -13454,6 +13454,10 @@ MonoBehaviour:
   _addressInputField: {fileID: 0}
   _phoneNumberInputField: {fileID: 686227754}
   _itemList: {fileID: 612082797}
+  _phoneWarningPopup: {fileID: 0}
+  _phoneWarningMessage: {fileID: 0}
+  _addressWarningPopup: {fileID: 0}
+  _addressWarningMessage: {fileID: 0}
 --- !u!1001 &1610346176206865503
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13524,11 +13528,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 317078689844730700, guid: 8e8e2bea3a9cdb141be3055761e02974, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 780
+      value: 590
       objectReference: {fileID: 0}
     - target: {fileID: 317078689844730700, guid: 8e8e2bea3a9cdb141be3055761e02974, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 404
+      value: 387.00006
       objectReference: {fileID: 0}
     - target: {fileID: 317078689844730700, guid: 8e8e2bea3a9cdb141be3055761e02974, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
