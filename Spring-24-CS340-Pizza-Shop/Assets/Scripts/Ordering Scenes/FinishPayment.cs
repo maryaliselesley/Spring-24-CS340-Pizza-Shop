@@ -34,6 +34,7 @@ public class FinishPayment : MonoBehaviour
     /// </summary>
     public void FinishPaymentAndStoreInfo()
     {
+        Debug.Log("Save payment info");
         // If phone or address is invalid, do not put anything in the database yet
         if (!IsPhoneNumberValid() || !IsAddressValid()) return;
 
@@ -46,10 +47,7 @@ public class FinishPayment : MonoBehaviour
         string phoneNumber = GetPhoneNumber();
 
         AddOrderToDatabase(items, date, time, total, type, address, phoneNumber);
-
-        // Back.RemoveCurrentScene(); // remove current scene so scene history is updated correct
-        // TODO: on manager and employee screen, make a AccessLevel PlayerPrefs to know which scene to go to after payment is complete
-        // SceneManager.LoadScene(PlayerPrefs.GetString("AccessLevel"));
+        BackButton.ReturnToManagerOrEmployee();
     }
 
     /// <summary>
@@ -198,6 +196,7 @@ public class FinishPayment : MonoBehaviour
         {
             if (!IsPhoneNumberValidHelper(_phoneNumberInputField.text))
             {
+                Debug.Log("Phone number not valid");
                 _phoneWarningMessage.text = "Invalid phone number format. Double check to make sure it is not empty and is a 10-digit number without any letters or special characters.";
                 _phoneWarningPopup.SetActive(true);
                 return false;
@@ -228,17 +227,22 @@ public class FinishPayment : MonoBehaviour
     /// <returns></returns>
     private bool IsAddressValid()
     {
-        if (_phoneNumberInputField != null)
+        if (_addressInputField != null)
         {
             if (_addressInputField.text == "")
             {
-                _addressWarningMessage.text = "Invalid address format. Double check to make sure the address is not empty.";
-                _addressWarningPopup.SetActive(true);
-                return false;
+                if (_addressWarningPopup != null)
+                {
+                    _addressWarningMessage.text = "Invalid address format. Double check to make sure the address is not empty.";
+                    _addressWarningPopup.SetActive(true);
+                    return false;
+                }
+                else return true;
             }
             else return true;
         }
 
+        Debug.Log("Address valid");
         return true;
     }
 }

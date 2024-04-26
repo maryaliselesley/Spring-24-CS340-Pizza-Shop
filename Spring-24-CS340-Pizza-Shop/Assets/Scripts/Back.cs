@@ -7,7 +7,7 @@ public class BackButton : MonoBehaviour
 {
     // Array to store scene names
     private static List<string> sceneHistory = new List<string>();
-   
+
     void Start()
     {
         // Initialize the scene history array with capacity for 10 scenes
@@ -15,14 +15,14 @@ public class BackButton : MonoBehaviour
         // Call a method to add the current scene to the array
         if (sceneHistory.Contains(SceneManager.GetActiveScene().name)) {
             return;
-        
+
         }
        sceneHistory.Add(SceneManager.GetActiveScene().name);
         Debug.Log(string.Format("Here's the list: ({0}).", string.Join(", ", sceneHistory)));
     }
 
-  
-  
+
+
 
     // Method to go back to the previous scene
     public void GoBack()
@@ -33,12 +33,20 @@ public class BackButton : MonoBehaviour
         {
             sceneHistory.RemoveAt( sceneHistory.Count-1);
             Debug.Log(" SceneHistory is going back to " + sceneHistory[sceneHistory.Count - 1] + " ");
-            SceneManager.LoadScene(sceneHistory[sceneHistory.Count - 1]); 
-      
+            SceneManager.LoadScene(sceneHistory[sceneHistory.Count - 1]);
+
         }
         else
         {
             Debug.LogWarning("No previous scene available.");
         }
+    }
+
+    // when a payment is finished, call this method to go back to either manager or employee scene
+    public static void ReturnToManagerOrEmployee()
+    {
+        sceneHistory.RemoveAt(sceneHistory.Count - 1);
+        SceneManager.LoadScene(sceneHistory[sceneHistory.Count - 1]);
+
     }
 }
