@@ -15,9 +15,9 @@ public class Employeeinformationmanager : MonoBehaviour
 
     public void DisplayEmpInfo()
     {
-        Name.text = ("Employee" + EmployeeNumber.ToString() + "Name");
-        SSN.text = ("Employee" + EmployeeNumber.ToString() + "SSN");
-        //Title.test("Employee" + EmployeeNumber.ToString() + "Title");
+        Name.text = PlayerPrefs.GetString("Employee" + EmployeeNumber.ToString() + "Name");
+        SSN.text = PlayerPrefs.GetString("Employee" + EmployeeNumber.ToString() + "SSN");
+        Title.text = PlayerPrefs.GetString("Employee" + EmployeeNumber.ToString() + "Title");
         Phone.text = PlayerPrefs.GetString("Employee" + EmployeeNumber.ToString() + "Phone");
     }
 
